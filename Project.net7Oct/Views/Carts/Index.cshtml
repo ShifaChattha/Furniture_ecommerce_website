@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Project.net7Oct.Models.Cart>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<br />
+<h2 style="color:#3b5d50;">Cart</h2>
+<br />
+
+@*<p>
+        @Html.ActionLink("Create New", "Create", null, new { style = "color:#3b5d50;text-decoration:none;" })
+    </p>*@
+
+<table style="width:100%;border-collapse:collapse;background-color:white;">
+    <tr>
+        <th style="background-color:#3b5d50;color:white;padding:8px;border:1px solid #3b5d50;">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th style="background-color:#3b5d50;color:white;padding:8px;border:1px solid #3b5d50;">
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </th>
+        <th style="background-color:#3b5d50;color:white;padding:8px;border:1px solid #3b5d50;"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="background-color:white;">
+            <td style="padding:8px;border:1px solid #3b5d50;">
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td style="padding:8px;border:1px solid #3b5d50;">
+                @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+            </td>
+            <td style="padding:8px;border:1px solid #3b5d50;">
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.CartId }, new { style = "color:#3b5d50;text-decoration:none;" }) |*@
+                @Html.ActionLink("Details", "Details", new { id = item.CartId }, new { style = "color:#3b5d50;text-decoration:none;" })
+                @*@Html.ActionLink("Delete", "Delete", new { id=item.CartId }, new { style = "color:#3b5d50;text-decoration:none;" })*@
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+<br />
+<br />

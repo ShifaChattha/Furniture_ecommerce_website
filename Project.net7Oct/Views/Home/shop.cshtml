@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Project.net7Oct.Models.Product>
+@{
+    var categories = ViewBag.Categories as List<Project.net7Oct.Models.Category>;
+    int? selectedCategoryId = Request.QueryString["categoryId"] != null ? int.Parse(Request.QueryString["categoryId"]) : (int?)null;
+}
+
+<br />
+
+<!-- Hero Section -->
+<div class="container">
+    <div class="row no-gutters slider-text align-items-center justify-content-center">
+        <div class="col-md-9 ftco-animate text-center">
+            <h1 class="mb-0 bread" style="color:#3b5d50;">Catalog</h1>
+        </div>
+    </div>
+</div>
+
+<!-- Category Filter -->
+<h2 class="mt-5" style="color:#3b5d50;">Categories</h2>
+<br />
+<div class="mb-4">
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link @(selectedCategoryId == null ? "active" : "")"
+               style="background-color:@(selectedCategoryId == null ? "#3b5d50" : "white"); color:@(selectedCategoryId == null ? "white" : "#3b5d50"); border:0px solid #3b5d50; margin-right:10px;"
+               href="@Url.Action("Shop", "Home")">All</a>
+        </li>
+        @foreach (var cat in categories)
+        {
+            <li class="nav-item">
+                <a class="nav-link @(selectedCategoryId == cat.CategoryId ? "active" : "")"
+                   style="background-color:@(selectedCategoryId == cat.CategoryId ? "#3b5d50" : "white"); color:@(selectedCategoryId == cat.CategoryId ? "white" : "#3b5d50"); border:0px solid #3b5d50; margin-right:10px;"
+                   href="@Url.Action("Shop", "Home", new { categoryId = cat.CategoryId })">
+                    @cat.Name
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+<br />
+
+<!-- Product Gallery -->
+<h2 style="color:#3b5d50;">Our Products</h2>
+<br />
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 text-center" style="margin-bottom:60px;">
+            <div class="card" style="background-color:white; color:#3b5d50; border:0px solid #3b5d50; border-radius:20px; padding:20px; min-height:640px;">
+                <img src="@Url.Content(item.ImageUrl)" alt="@item.Name"
+                     style="width:100%; height:350px; object-fit:cover; border-radius:10px; margin-bottom:25px;" />
+
+                <h4>@item.Name</h4>
+                <p>@item.Description</p>
+                <p><strong>Price:</strong> @item.Price.ToString("C")</p>
+                <p><strong>Category:</strong> @item.Category.Name</p>
+
+                <div class="text-center">
+
+                    @if (item.StockQuantity <= 0)
+                    {
+                        <button type="submit" class="btn" disabled style="background-color:gray; color:white; width:200px ">
+                            Out of Stock
+                        </button>
+
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("AddToCart", "MYCART", FormMethod.Post))
+                        {
+                            @Html.Hidden("productId", item.ProductId)
+                            <button type="submit" class="btn" style="background-color:#3b5d50; color:white; width:200px">
+                                Add To Cart
+                            </button>
+                        }
+                    }
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+<br />
+<br />
+<br />

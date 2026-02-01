@@ -1,0 +1,113 @@
+﻿@model Project.net7Oct.Models.IndexViewModel
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "User Dashboard";
+}
+<style>
+/* Dashboard Container */
+.dashboard-card {
+    background-color: #f5f7fa;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+/* Title and Subtext */
+.dashboard-title {
+    font-size: 32px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.dashboard-subtext {
+    font-size: 18px;
+    color: #3b5d50;
+    margin-bottom: 30px;
+}
+
+/* Divider */
+hr {
+    border: none;
+    border-top: 2px solid #ecf0f1;
+    margin: 30px 0;
+}
+
+/* Circle Tiles */
+.circle-tile {
+    display: inline-block;
+    background-color: #3b5d50;
+    color: white;
+    text-decoration: none;
+    width: 140px;
+    height: 140px;
+    line-height: 140px;
+    text-align: center;
+    margin: 15px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.circle-tile:hover {
+    background-color: white;
+    transform: scale(1.08);
+}
+
+
+
+    .dashboard-title {
+        font-size: 24px;
+    }
+
+    .dashboard-subtext {
+        font-size: 16px;
+    }
+
+
+</style>
+
+
+<div class="dashboard-card">
+    <h2 class="dashboard-title">Welcome, @User.Identity.GetUserName()!</h2>
+    <br />
+    @*<p class="dashboard-subtext">Manage your account and access authorized sections below.</p>*@
+
+    
+
+
+
+    @if (User.IsInRole("Admin"))
+    {
+        <h4 class="dashboard-subtext">Admin can access authorized sections below.</h4>
+        <hr />
+        <a href="@Url.Action("Index", "Users")" class="circle-tile">Users</a>
+        <a href="@Url.Action("Index", "AspNetRoles")" class="circle-tile">Roles</a>
+        <a href="@Url.Action("Index", "UserRole")" class="circle-tile">User Roles</a>
+        <a href="@Url.Action("Index", "Products")" class="circle-tile">Products</a>
+        <a href="@Url.Action("Index", "Categories")" class="circle-tile">Categories</a>
+        <a href="@Url.Action("Index", "Carts")" class="circle-tile">Carts</a>
+        <a href="@Url.Action("Index", "CartItems")" class="circle-tile">CartItems</a>
+    }
+
+    @if (User.IsInRole("Stock Manager"))
+    {
+
+        <h4 class="dashboard-subtext">Stock Manager access authorized sections below.</h4>
+        <hr />
+        <a href="@Url.Action("Index", "Products")" class="circle-tile">Products</a>
+    }
+
+    @if (User.IsInRole("Content writer"))
+    {
+        <h4 class="dashboard-subtext">Content Writer can access authorized sections below.</h4>
+        <hr />
+        <a href="@Url.Action("Index", "Categories")" class="circle-tile">Categories</a>
+        <a href="@Url.Action("Index", "Products")" class="circle-tile">Products</a>
+    }
+</div>

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<Project.net7Oct.Models.CartItem>
+@{
+    ViewBag.Title = "My Cart";
+}
+
+<div class="untree_co-section before-footer-section">
+    <div class="container">
+        <h2 class="text-black mb-4">🛒 My Shopping Cart</h2>
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">@TempData["Error"]</div>
+        }
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
+
+        @if (!Model.Any())
+        {
+            <p>Your cart is empty  <a href="@Url.Action("shop", "Home")">Continue shopping</a>.</p>
+        }
+        else
+        {
+            <div class="site-blocks-table">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            var maxStock = item.Product.StockQuantity;
+                            var disableIncrease = item.Quantity >= maxStock ? "disabled" : "";
+                            <tr>
+                                <td>@item.Product.Name</td>
+                                <td>
+                                    <img src="@item.Product.ImageUrl" alt="@item.Product.Name" class="img-fluid" style="width:80px;height:80px;border-radius:10px;" />
+                                </td>
+                                <td>@item.Product.Price.ToString("N2")</td>
+                                <td>
+                                    <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px;">
+                                        <div class="input-group-prepend">
+                                            @using (Html.BeginForm("DecreaseQuantity", "MyCart", FormMethod.Post))
+                                            {
+                                                @Html.Hidden("cartItemId", item.CartItemId)
+                                                <button type="submit" class="btn btn-outline-black decrease">&minus;</button>
+                                            }
+                                        </div>
+                                        <input type="text" class="form-control text-center quantity-amount" value="@item.Quantity" readonly />
+                                        <div class="input-group-append">
+                                            @using (Html.BeginForm("IncreaseQuantity", "MyCart", FormMethod.Post))
+                                            {
+                                                @Html.Hidden("cartItemId", item.CartItemId)
+                                                <button type="submit" class="btn btn-outline-black increase" @disableIncrease>&plus;</button>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@(item.Quantity * item.Product.Price)</td>
+                                <td>
+                                    @using (Html.BeginForm("RemoveItem", "MyCart", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("cartItemId", item.CartItemId)
+                                        <button type="submit" class="btn btn-black btn-sm">Remove</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="row mb-5">
+
+
+                        <div class="col-md-6">
+                            <a href="@Url.Action("shop", "Home")" class="btn btn-outline-black btn-sm btn-block">Continue Shopping</a>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                        <div class="col-md-12">
+                            <label class="text-black h4" for="coupon">Coupon</label>
+                            <p>Enter your coupon code if you have one.</p>
+                        </div>
+                        <div class="col-md-8 mb-3 mb-md-0">
+                            <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
+                        </div>
+
+                        <div class="col-md-4">
+                            <button class="btn btn-black">Apply Coupon</button>
+                        </div>
+                    </div>*@
+                </div>
+
+                <div class="col-md-6 pl-5">
+                    <div class="row justify-content-end">
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-12 text-right border-bottom mb-5">
+                                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <span class="text-black">Subtotal</span>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <strong class="text-black">@ViewBag.Total.ToString("N2")</strong>
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-md-6">
+                                    <span class="text-black">Total</span>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <strong class="text-black">@ViewBag.Total.ToString("N2")</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="@Url.Action("Index", "Checkout")" class="btn btn-black btn-lg py-3 btn-block">Proceed To Checkout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

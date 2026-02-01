@@ -1,0 +1,154 @@
+﻿@model IEnumerable<Project.net7Oct.Models.CartItem>
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">🧾 Checkout</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <form method="post" action="@Url.Action("Confirm", "Checkout")">
+       
+         
+        <div class="row">
+            <!-- Billing Details -->
+            <div class="col-md-6 mb-5 mb-md-0">
+                <h2 class="h3 mb-3 text-black">Billing Details</h2>
+                <div class="p-3 p-lg-5 border bg-white">
+                    <div class="form-group">
+                        <label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
+                        <select id="c_country" name="c_country" class="form-control">
+                            <option value="">Select a country</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="Algeria">Algeria</option>
+                            <option value="Afghanistan">Afghanistan</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="Albania">Albania</option>
+                            <option value="Bahrain">Bahrain</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Dominican Republic">Dominican Republic</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="c_fname" name="c_fname">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="c_lname" name="c_lname">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="c_state_country" class="text-black">State / Country <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="c_state_country" name="c_state_country">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="c_postal_zip" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="c_postal_zip" name="c_postal_zip">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-5">
+                        <div class="col-md-6">
+                            <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="c_email_address" name="c_email_address">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="c_order_notes" class="text-black">Order Notes</label>
+                        <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-md-6">
+                <h2 class="h3 mb-3 text-black">Your Order</h2>
+                <div class="p-3 p-lg-5 border bg-white">
+                    <table class="table site-block-order-table mb-5">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var subtotal = item.Quantity * item.Product.Price;
+                                <tr>
+                                    <td>@item.Product.Name <strong class="mx-2">x</strong> @item.Quantity</td>
+                                    <td>@subtotal.ToString("N2")</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+                                <td class="text-black">@ViewBag.Total.ToString("N2")</td>
+                            </tr>
+                            <tr>
+                                <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                                <td class="text-black font-weight-bold"><strong>@ViewBag.Total.ToString("N2")</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Payment Options -->
+                    <div class="border p-3 mb-3">
+                        <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsebank">Direct Bank Transfer</a></h3>
+                        <div class="collapse" id="collapsebank">
+                            <div class="py-2">
+                                <p class="mb-0">Make your payment directly into our bank account. Use your Order ID as reference.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border p-3 mb-3">
+                        <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsecheque">Cheque Payment</a></h3>
+                        <div class="collapse" id="collapsecheque">
+                            <div class="py-2">
+                                <p class="mb-0">Send your cheque to our mailing address. Use your Order ID as reference.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border p-3 mb-5">
+                        <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsepaypal">Paypal</a></h3>
+                        <div class="collapse" id="collapsepaypal">
+                            <div class="py-2">
+                                <p class="mb-0">Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Final Buttons -->
+                    <div class="form-group">
+                        <a href="@Url.Action("Thankyou", "Home")"class="btn btn-outline-secondary btn-lg py-3 btn-block mt-2">Place order</a>
+                        <a href="@Url.Action("Index", "MYCART")" class="btn btn-outline-secondary btn-lg py-3 btn-block mt-2">Back to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

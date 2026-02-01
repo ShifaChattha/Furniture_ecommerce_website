@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Project.net7Oct.Models.AspNetRole>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+
+<h2 style="color:#3b5d50;">Roles</h2>
+<br />
+
+<p style="margin-bottom:15px;">
+    @Html.ActionLink("Create New", "Create", null, new { style = "color:#3b5d50;text-decoration:none;" })
+</p>
+
+<table style="width:100%;border-collapse:collapse;background-color:white;">
+    <tr>
+        <th style="background-color:#3b5d50;color:white;padding:8px;border:1px solid #3b5d50;">
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th style="background-color:#3b5d50;color:white;padding:8px;border:1px solid #3b5d50;"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="background-color:white;">
+            <td style="padding:8px;border:1px solid #3b5d50;">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td style="padding:8px;border:1px solid #3b5d50;">
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { style = "color:#3b5d50;text-decoration:none;" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { style = "color:#3b5d50;text-decoration:none;" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { style = "color:#3b5d50;text-decoration:none;" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+<br />

@@ -1,0 +1,59 @@
+﻿@model Project.net7Oct.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<main aria-labelledby="title">
+    <br />
+    <br />
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <section style="background-color: white; color: #3b5d50; padding: 30px; border-radius: 10px; border: 1px solid #3b5d50; box-shadow: 0 0 10px rgba(59, 93, 80, 0.1);">
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h2 style="color: #3b5d50; font-weight: bold;">Create a new account.</h2>
+                    <hr style="border-color: #3b5d50;" />
+                    <br />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label", style = "color: #3b5d50;" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", style = "border: 1px solid #3b5d50; color: #3b5d50;" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label", style = "color: #3b5d50;" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", style = "border: 1px solid #3b5d50; color: #3b5d50;" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label", style = "color: #3b5d50;" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", style = "border: 1px solid #3b5d50; color: #3b5d50;" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="offset-md-2 col-md-10">
+                            <input type="submit" value="Register" class="btn" style="background-color: #3b5d50; color: white; border: none; padding: 10px 20px; font-weight: bold; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#2f4f45'" onmouseout="this.style.backgroundColor='#3b5d50'" />
+                        </div>
+                    </div>
+
+                    <p class="text-center">
+                        @Html.ActionLink("If already have an account Login", "Login", null, new { style = "color: #3b5d50; text-decoration: underline;" })
+                    </p>
+                }
+            </section>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

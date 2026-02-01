@@ -1,0 +1,48 @@
+﻿@model List<Project.net7Oct.Controllers.UserRolesViewModel>
+<div class="untree_co-section before-footer-section" style="background-color:white;color:#3b5d50;">
+    <div class="container">
+        <h2 style="color:#3b5d50;">User_Roles</h2>
+        <br />
+        <div class="table-responsive">
+            <table style="width:100%;border-collapse:collapse;background-color:white;border:1px solid #3b5d50;">
+                <thead>
+                    <tr style="background-color:#3b5d50;color:white;">
+                        <th style="padding:8px;border:1px solid #3b5d50;">User ID</th>
+                        <th style="padding:8px;border:1px solid #3b5d50;">Email</th>
+                        <th style="padding:8px;border:1px solid #3b5d50;">Role</th>
+                        <th style="padding:8px;border:1px solid #3b5d50;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr style="background-color:white;">
+                            <td style="padding:8px;border:1px solid #3b5d50;">@user.UserId</td>
+                            <td style="padding:8px;border:1px solid #3b5d50;">@user.Email</td>
+                            <td style="padding:8px;border:1px solid #3b5d50;">
+                                @Html.Raw(string.IsNullOrEmpty(user.Role) ?
+                                                   "<span style='color:gray;'>No Role Assigned</span>" :
+                                                   user.Role)
+                            </td>
+                            <td style="padding:8px;border:1px solid #3b5d50;">
+                                @Html.ActionLink("Assign/Change Role", "Assign", new { userId = user.UserId }, new
+                                {
+                                    style = "color:#3b5d50;text-decoration:none;"
+                                })
+
+                                @if (!string.IsNullOrEmpty(user.Role))
+                                {
+                                    @Html.ActionLink("Delete Role", "Delete", new { userId = user.UserId }, new
+                                    {
+                                        style = "color:#3b5d50;text-decoration:none;margin-left:10px;",
+                                        onclick = "return confirm('Are you sure you want to remove this role?');"
+                                    })
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Order Confirmation";
+}
+
+<div class="container mt-5 text-center">
+    <h1 class="text-success mb-4">Thank You!</h1>
+    <p class="lead">Your order has been placed successfully.</p>
+    <p>We appreciate your business and will begin processing your order shortly.</p>
+
+    <hr class="my-4" />
+
+    <h4 class="mb-3">Next Steps</h4>
+    <ul class="list-unstyled">
+        <li>📦 Your items will be packed and shipped soon.</li>
+        <li>📧 A confirmation email will be sent to you.</li>
+        <li>🛍️ You can continue shopping anytime.</li>
+    </ul>
+
+    <a href="@Url.Action("Shop", "Home")" class="btn btn-primary btn-lg mt-4">Continue Shopping</a>
+</div>
+

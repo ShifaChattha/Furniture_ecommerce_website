@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Assign";
+}
+
+@*<h2>Assign</h2>*@
+
+@model Project.net7Oct.Controllers.AssignRoleViewModel
+
+<div class="untree_co-section before-footer-section">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="bg-dark text-white d-inline-block px-4 py-2 rounded-pill">Assign Role</h2>
+        </div>
+
+        @using (Html.BeginForm("Assign", "UserRole", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.UserId)
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Role</th>
+                            <th>Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Roles.Count; i++)
+                        {
+                            <tr>
+                                <td>@Model.Roles[i].RoleName</td>
+                                <td>
+                                    @Html.RadioButtonFor(m => m.SelectedRole, Model.Roles[i].RoleName)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn text-white" style="background-color:#3b5d50; width:160px; border-radius:20px;">
+                    Save
+                </button>
+            </div>
+        }
+
+        <div class="text-center mt-4">
+            <a href="@Url.Action("Assign", "UserRole")"
+               class="btn btn-outline-dark px-4 py-2"
+               style="border-radius:20px; font-weight:bold;">
+                Back to List
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@using Project.net7Oct.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+<br />
+<br />
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-dismissible fade show" role="alert"
+         style="background-color: white; color: #3b5d50; border: 1px solid #3b5d50; border-radius: 6px; padding: 10px 15px;">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <script>
+        setTimeout(function () {
+            var alertBox = document.querySelector('.alert');
+            if (alertBox) {
+                alertBox.classList.remove('show');
+            }
+        }, 5000);
+    </script>
+}
+
+<main aria-labelledby="title">
+    <br />
+    <br />
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <section id="loginForm" style="background-color: white; color: #3b5d50; padding: 30px; border-radius: 10px; border: 1px solid #3b5d50; box-shadow: 0 0 10px rgba(59, 93, 80, 0.1);">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h2 style="color: #3b5d50; font-weight: bold;">Use a local account to log in.</h2>
+                    <hr style="border-color: #3b5d50;" />
+                    <br />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label", style = "color: #3b5d50;" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", style = "border: 1px solid #3b5d50; color: #3b5d50;" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label", style = "color: #3b5d50;" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", style = "border: 1px solid #3b5d50; color: #3b5d50;" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="offset-md-2 col-md-10">
+                            <div class="form-check" style="color: #3b5d50;">
+                                @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+                                @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label", style = "color: #3b5d50;" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="offset-md-2 col-md-10">
+                            <input type="submit" value="Log in" class="btn" style="background-color: #3b5d50; color: white; border: none; padding: 10px 20px; font-weight: bold; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#2f4f45'" onmouseout="this.style.backgroundColor='#3b5d50'" />
+                        </div>
+                    </div>
+
+                    <p class="text-center">
+                        @Html.ActionLink("Register as a new user", "Register", null, new { style = "color: #3b5d50; text-decoration: underline;" })
+                    </p>
+                }
+            </section>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

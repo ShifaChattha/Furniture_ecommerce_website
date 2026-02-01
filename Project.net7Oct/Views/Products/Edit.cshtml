@@ -1,0 +1,130 @@
+﻿@model Project.net7Oct.Models.Product
+
+@{
+    ViewBag.Title = "Edit";
+    bool isContentWriter = User.IsInRole("Content writer");
+    bool isStockManager = User.IsInRole("Stock Manager");
+    bool isAdmin = User.IsInRole("Admin");
+}
+<br />
+
+<h2>Edit Products</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ProductId)
+
+        <!-- Name -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (isAdmin)
+                {
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                }
+                else
+                {
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @readonly = "readonly" })
+                }
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (isContentWriter || isAdmin)
+                {
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                }
+                else
+                {
+                    @Html.TextBoxFor(model => model.Description, new { @class = "form-control", @readonly = "readonly" })
+                }
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- ImageUrl -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageUrl, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (isAdmin)
+                {
+                    @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+                }
+                else
+                {
+                    @Html.TextBoxFor(model => model.ImageUrl, new { @class = "form-control", @readonly = "readonly" })
+                }
+                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- Price -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (isAdmin)
+                {
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                }
+                else
+                {
+                    @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @readonly = "readonly" })
+                }
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- StockQuantity -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.StockQuantity, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (isStockManager || isAdmin)
+                {
+                    @Html.EditorFor(model => model.StockQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                }
+                else
+                {
+                    @Html.TextBoxFor(model => model.StockQuantity, new { @class = "form-control", @readonly = "readonly" })
+                }
+                @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- CategoryId -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryId, "CategoryId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (isAdmin)
+                {
+                    @Html.DropDownList("CategoryId", null, new { @class = "form-control" })
+                }
+                else
+                {
+                    @Html.DropDownList("CategoryId", null, new { @class = "form-control", @disabled = "disabled" })
+                    @Html.HiddenFor(model => model.CategoryId) <!-- Ensures value is posted -->
+                }
+                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
